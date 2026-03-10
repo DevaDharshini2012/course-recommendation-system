@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Admin Access - PathFinder AI{% endblock %}
+{% block content %}
+<div style="max-width:440px; margin:8rem auto; position: relative;">
+  <div style="position: absolute; top: -2rem; left: 50%; transform: translateX(-50%); width: 4rem; height: 4rem; background: var(--primary); color: white; border-radius: 1.25rem; display: flex; align-items: center; justify-content: center; font-size: 1.75rem; box-shadow: var(--shadow-lg); z-index: 10;">🔐</div>
+  
+  <div class="card" style="padding-top: 3.5rem;">
+    <div style="text-align:center; margin-bottom:2.5rem;">
+      <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem;">Administrator Portal</h2>
+      <p style="color:var(--text-muted); font-size:.9rem;">Restricted access environment</p>
+    </div>
+
+    <form method="POST">
+      <div class="form-group">
+        <label for="username">System Identity</label>
+        <input type="text" id="username" name="username" required placeholder="Enter username" style="background: #f8fafc;">
+      </div>
+      <div class="form-group">
+        <label for="password">Access Token</label>
+        <input type="password" id="password" name="password" required placeholder="••••••••" style="background: #f8fafc;">
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%; margin-top: 1rem; padding: 1rem;">Authenticate Session</button>
+    </form>
+    
+    <div style="text-align:center; margin-top:2.5rem; border-top: 1px solid var(--border); padding-top: 1.5rem;">
+      <a href="/" style="color:var(--text-muted); font-size:.85rem; text-decoration: none; font-weight: 600;">← Return to Main Terminal</a>
+    </div>
+  </div>
+  
+  <div class="alert alert-info" style="margin-top:2rem; font-size:.85rem; border: none; background: rgba(99, 102, 241, 0.05); color: var(--primary);">
+    <div style="font-weight: 700;">Infrastructure Note:</div>
+    <div style="opacity: 0.8;">Default credentials reside in <code>app.py</code> logic. Please rotate before production.</div>
+  </div>
+</div>
+{% endblock %}

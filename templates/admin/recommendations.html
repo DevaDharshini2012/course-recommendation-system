@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Recommendation Audit - PathFinder Admin{% endblock %}
+{% block content %}
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:3rem; padding-top: 1rem;">
+  <div>
+    <h2 style="font-size:2rem; font-weight: 800; letter-spacing: -0.025em; margin-bottom: 0.25rem;">Decision Audit Log</h2>
+    <p style="color: var(--text-muted); font-size: 0.95rem;">Historical record of AI-generated course vectors</p>
+  </div>
+  <div style="display:flex; gap:10px;">
+    <a href="/admin/export/recommendations" class="btn btn-primary" style="font-size:.85rem; padding:0.75rem 1.5rem;">Export Audit CSV</a>
+    <a href="/admin" class="btn btn-secondary" style="font-size:.85rem; padding:0.75rem 1.5rem;">← Intelligence Terminal</a>
+  </div>
+</div>
+
+<div class="card" style="padding: 0; overflow: hidden; border-style: solid;">
+  <div style="padding: 1.25rem 2rem; background: #f8fafc; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+    <span style="font-weight: 700; font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em;">NEURAL OUTPUT DATA</span>
+    <span class="badge badge-purple">{{ recs | length }} Core Predictions</span>
+  </div>
+  
+  <div style="overflow-x:auto;">
+    {% if recs %}
+    <table style="width: 100%; min-width: 1200px;">
+      <thead>
+        <tr>
+          <th>REC TOKEN</th>
+          <th>SUBJECT VECTOR</th>
+          <th>INFERRED COURSE</th>
+          <th>DOMAIN</th>
+          <th>TARGET LVL</th>
+          <th>CONFIDENCE</th>
+          <th>TIMESTAMP</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in recs %}
+        <tr>
+          <td><code style="background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 11px;">{{ r.rec_id[:8] }}</code></td>
+          <td><code style="background: #f1f5f9; padding: 2px 6px; border-radius: 4px; font-size: 11px;">{{ r.user_id[:8] }}</code></td>
+          <td style="font-weight: 700; color: var(--text-main);">{{ r.recommended_course_name }}</td>
+          <td><span class="badge badge-blue" style="font-size: 0.7rem;">{{ r.category }}</span></td>
+          <td>
+            <span class="badge {% if r.level == 'beginner' %}badge-green{% elif r.level == 'intermediate' %}badge-purple{% else %}badge-blue{% endif %}" style="font-size: 0.7rem;">
+              {{ r.level | upper }}
+            </span>
+          </td>
+          <td>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-weight: 800; color: var(--success);">{{ r.confidence_percent }}%</span>
+              <div class="progress-bar" style="width: 60px; height: 4px;">
+                <div class="progress-fill" style="width: {{ r.confidence_percent }}%; background: var(--success);"></div>
+              </div>
+            </div>
+          </td>
+          <td style="font-size:.75rem; color:var(--text-muted); font-family: monospace;">{{ r.timestamp[:16] if r.timestamp else 'N/A' }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div style="padding:5rem; text-align:center; color:var(--text-muted);">
+      <div style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.2;">📊</div>
+      <p style="font-weight: 500;">Inference engine logs are currently empty.</p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+
+{% if recs %}
+<div class="card" style="margin-top:2.5rem; background: #0f172a; color: white; border: none;">
+  <h3 style="font-size:1rem; font-weight: 800; margin-bottom:2rem; color: #818cf8; letter-spacing: 0.05em; text-transform: uppercase;">Recent Feature Attribution (Sample)</h3>
+  <div style="display: flex; flex-direction: column; gap: 1rem;">
+    {% for r in recs[-2:] | reverse %}
+    <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius:1rem; padding:1.5rem;">
+      <div style="font-size:.75rem; color:rgba(255,255,255,0.5); font-weight: 700; margin-bottom:1rem; display: flex; justify-content: space-between;">
+        <span>CORE PREDICTION #{{ r.rec_id[:12] }}</span>
+        <span style="color: var(--primary);">RESULT: {{ r.recommended_course_name }}</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.9rem; color: rgba(255,255,255,0.85);">
+        {% if r.key_reason_1 %}<div style="display: flex; gap: 0.75rem;"><span>✔</span> {{ r.key_reason_1 }}</div>{% endif %}
+        {% if r.key_reason_2 %}<div style="display: flex; gap: 0.75rem;"><span>✔</span> {{ r.key_reason_2 }}</div>{% endif %}
+        {% if r.key_reason_3 %}<div style="display: flex; gap: 0.75rem;"><span>✔</span> {{ r.key_reason_3 }}</div>{% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Get Started - PathFinder AI{% endblock %}
+{% block content %}
+<div class="step-bar">
+  <div class="step active"></div>
+  <div class="step"></div>
+  <div class="step"></div>
+  <div class="step"></div>
+  <div class="step"></div>
+</div>
+
+<div class="card">
+  <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+    <div style="width: 3rem; height: 3rem; background: #eef2ff; color: var(--primary); border-radius: 1rem; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">👋</div>
+    <div>
+      <h2 style="margin-bottom: 0;">Let's Get Started</h2>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 0;">Step 1 of 5 — Initialize your profile</p>
+    </div>
+  </div>
+
+  <form method="POST" action="/start">
+    <div class="grid-2">
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" placeholder="e.g., Alex Rivers" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email Address <span style="font-weight: normal; color: var(--text-muted);">(Optional)</span></label>
+        <input type="email" id="email" name="email" placeholder="alex@example.com">
+      </div>
+    </div>
+
+    <div class="alert alert-info" style="margin: 1.5rem 0;">
+      <span style="font-size: 1.25rem;">🛡️</span>
+      <div style="font-size: 0.9rem;">
+        <strong>Privacy First:</strong> Your data is stored in a private CSV and is only used for recommendation generation and admin auditing.
+      </div>
+    </div>
+
+    <div style="margin-top:2.5rem; display:flex; gap:12px;">
+      <a href="/" class="btn btn-secondary">← Back</a>
+      <button type="submit" class="btn btn-primary">Initialize Profile & Continue</button>
+    </div>
+  </form>
+</div>
+
+<div class="card" style="background: rgba(248, 250, 252, 0.4); border-style: dashed;">
+  <h3 style="font-size:1rem; margin-bottom:1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+    <span style="color: var(--primary);">•</span> Your Journey Roadmap
+  </h3>
+  <div style="display:flex; flex-direction:column; gap:1.25rem;">
+    <div style="display:flex; gap:1rem; align-items:center;">
+      <div class="badge badge-blue" style="width: 24px; height: 24px; justify-content: center; padding: 0;">2</div>
+      <span style="font-size:.95rem; color: var(--text-muted);">Intelligent Academic Analysis (PDF / Manual)</span>
+    </div>
+    <div style="display:flex; gap:1rem; align-items:center;">
+      <div class="badge badge-blue" style="width: 24px; height: 24px; justify-content: center; padding: 0;">3</div>
+      <span style="font-size:.95rem; color: var(--text-muted);">Adaptive Coding Skill Assessment</span>
+    </div>
+    <div style="display:flex; gap:1rem; align-items:center;">
+      <div class="badge badge-blue" style="width: 24px; height: 24px; justify-content: center; padding: 0;">4</div>
+      <span style="font-size:.95rem; color: var(--text-muted);">Career Path & Interest Alignment</span>
+    </div>
+    <div style="display:flex; gap:1rem; align-items:center;">
+      <div class="badge badge-green" style="width: 24px; height: 24px; justify-content: center; padding: 0;">5</div>
+      <span style="font-size:.95rem; font-weight: 500;">AI Recommendation with XAI Reasoning</span>
+    </div>
+  </div>
+</div>
+{% endblock %}

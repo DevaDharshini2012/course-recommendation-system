@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Goal Alignment - PathFinder AI{% endblock %}
+{% block content %}
+<div class="step-bar">
+  <div class="step done"></div>
+  <div class="step done"></div>
+  <div class="step done"></div>
+  <div class="step active"></div>
+  <div class="step"></div>
+</div>
+
+<div class="card">
+  <div style="display:flex; align-items:center; gap:1.25rem; margin-bottom:2.5rem;">
+    <div style="width: 3.5rem; height: 3.5rem; background: #fff7ed; color: var(--warning); border-radius: 1.25rem; display: flex; align-items: center; justify-content: center; font-size: 1.75rem;">🎯</div>
+    <div>
+      <h2 style="margin-bottom: 0;">Goal Identification</h2>
+      <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 0;">Step 4 of 5 — Aligning recommendations with your ambition</p>
+    </div>
+  </div>
+
+  <div class="alert alert-success" style="background: linear-gradient(to right, #f0fdf4, #dcfce7); border: none; padding: 1.5rem;">
+    <div style="font-size: 1.5rem;">🚀</div>
+    <div>
+      <div style="font-weight: 700; color: #166534; font-size: 1.1rem;">Assessment Phase Complete</div>
+      <div style="color: #16a34a; font-size: 0.9rem; font-weight: 500;">
+        Skills verified: <span class="badge badge-green">{{ skill_level | title }}</span> 
+        &nbsp;&bull;&nbsp; 
+        Aca. Foundation: <span class="badge badge-green">{{ avg | round(1) }}%</span>
+      </div>
+    </div>
+  </div>
+
+  <form method="POST" action="/interests" style="margin-top: 2.5rem;">
+    <div class="grid-2" style="margin-bottom: 2rem;">
+      <div class="form-group">
+        <label for="interest">Primary Interest Domain</label>
+        <select name="interest" id="interest" required>
+          <option value="">Select Domain Area</option>
+          {% for val, label in interest_options %}
+          <option value="{{ val }}">{{ label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="career_goal">Target Professional Title</label>
+        <select name="career_goal" id="career_goal" required>
+          <option value="">Select Career Target</option>
+          {% for career in career_options %}
+          <option value="{{ career }}">{{ career }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div style="background: rgba(15, 23, 42, 0.03); border-radius: 1.5rem; padding: 2.5rem; margin-top: 3rem; border: 1px solid var(--border);">
+      <h3 style="font-size: 0.85rem; font-weight: 800; letter-spacing: 0.1em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 2rem; text-align: center;">YOUR PROFILE SYNOPSIS</h3>
+      <div class="grid-3">
+        <div style="text-align:center;">
+          <div style="font-size: 2.5rem; font-weight: 800; color: var(--primary); font-family: 'Outfit'; line-height: 1;">{{ avg | round(0) | int }}<span style="font-size: 1rem; opacity: 0.5;">%</span></div>
+          <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600; margin-top: 0.5rem; text-transform: uppercase;">Aca. Metric</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size: 1.8rem; font-weight: 800; color: var(--secondary); font-family: 'Outfit'; line-height: 1; margin-bottom: 0.3rem;">{{ skill_level | title }}</div>
+          <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">Assessed Rank</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size: 1.8rem; font-weight: 800; color: var(--success); font-family: 'Outfit'; line-height: 1; margin-bottom: 0.3rem;">READY</div>
+          <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">Engine Status</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex; gap:12px; margin-top: 3rem; justify-content: space-between;">
+      <a href="/skill-test" class="btn btn-secondary">← Back to Test</a>
+      <button type="submit" class="btn btn-primary" style="padding: 1rem 3rem; font-size: 1.1rem; box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);">Generate My Trajectory →</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

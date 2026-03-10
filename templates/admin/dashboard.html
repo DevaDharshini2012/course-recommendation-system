@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block title %}System Dashboard - PathFinder Admin{% endblock %}
+{% block extra_css %}
+<style>
+  .stat-card-primary { background: linear-gradient(to bottom right, #ffffff, #f0f9ff); }
+  .stat-card-accent { background: linear-gradient(to bottom right, #ffffff, #faf5ff); }
+  .stat-card-success { background: linear-gradient(to bottom right, #ffffff, #f0fdf4); }
+  
+  .level-card { text-align:center; padding:2rem; background:rgba(15, 23, 42, 0.02); border: 1px solid var(--border); border-radius:1.25rem; }
+  .level-beginner { color: var(--success); }
+  .level-intermediate { color: var(--primary); }
+  .level-advanced { color: var(--secondary); }
+  
+  .course-stat-item { display:flex; justify-content:space-between; align-items: center; padding:1rem; background: #f8fafc; border-radius: 0.75rem; border: 1px solid var(--border); }
+</style>
+{% endblock %}
+
+{% block content %}
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:3rem; padding-top: 1rem;">
+  <div>
+    <h2 style="font-size:2rem; font-weight: 800; letter-spacing: -0.025em; margin-bottom: 0.25rem;">Command Center</h2>
+    <p style="color: var(--text-muted); font-size: 0.95rem;">System health and recommendation oversight</p>
+  </div>
+  <a href="/admin/logout" class="btn btn-secondary" style="font-size:.85rem; padding:0.75rem 1.5rem; background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca;">Terminate Session</a>
+</div>
+
+<!-- Stats Global -->
+<div class="grid-3" style="margin-bottom: 3rem;">
+  <div class="card stat-card-primary" style="text-align:center; padding:2rem;">
+    <div style="font-size:3rem; font-weight:900; color:var(--primary); line-height: 1;">{{ stats.total_users }}</div>
+    <div style="color:var(--text-muted); font-size:.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin: 1rem 0;">Total Profiles</div>
+    <a href="/admin/users" class="badge badge-blue">Management Hub →</a>
+  </div>
+  
+  <div class="card stat-card-accent" style="text-align:center; padding:2rem;">
+    <div style="font-size:3rem; font-weight:900; color:var(--accent); line-height: 1;">{{ stats.total_recommendations }}</div>
+    <div style="color:var(--text-muted); font-size:.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin: 1rem 0;">Directives Issued</div>
+    <a href="/admin/recommendations" class="badge badge-purple">Audit Logs →</a>
+  </div>
+  
+  <div class="card stat-card-success" style="text-align:center; padding:2rem;">
+    <div style="font-size:3rem; font-weight:900; color:var(--success); line-height: 1;">
+      {% if model_info %}{{ "%.1f"|format(model_info.rf_accuracy * 100) }}{% else %}0{% endif %}<span style="font-size: 1.25rem; opacity: 0.5;">%</span>
+    </div>
+    <div style="color:var(--text-muted); font-size:.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin: 1rem 0;">Model Precision</div>
+    <a href="/admin/model-info" class="badge badge-green">Core Engine Info →</a>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="card" style="padding: 2.5rem;">
+    <h3 style="margin-bottom:2rem; font-size:1.1rem; font-weight: 800; display: flex; align-items: center; gap: 0.5rem;">
+      <span style="color: var(--primary);">📈</span> Course Trajectory Popularity
+    </h3>
+    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+      {% if stats.course_distribution %}
+        {% for course, count in stats.course_distribution.items() %}
+        {% if loop.index <= 5 %}
+        <div class="course-stat-item">
+          <span style="font-weight: 600; font-size: 0.95rem; color: var(--text-main);">{{ course }}</span>
+          <span class="badge" style="background: var(--primary); color: white; border-radius: 0.5rem; padding: 0.25rem 0.625rem;">{{ count }}</span>
+        </div>
+        {% endif %}
+        {% endfor %}
+      {% else %}
+        <p style="color:var(--text-muted); font-size:.9rem; text-align: center; padding: 2rem;">Awaiting inaugural data points...</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="card" style="padding: 2.5rem;">
+    <h3 style="margin-bottom:2rem; font-size:1.1rem; font-weight: 800; display: flex; align-items: center; gap: 0.5rem;">
+      <span style="color: var(--accent);">🎯</span> Aspiration Clusters
+    </h3>
+    {% if stats.interest_distribution %}
+      <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+        {% for interest, count in stats.interest_distribution.items() %}
+        {% if loop.index <= 6 %}
+        <div>
+          <div style="display:flex; justify-content:space-between; margin-bottom:0.5rem; font-size: 0.9rem; font-weight: 600;">
+            <span style="color: var(--text-main);">{{ interest | replace('_', ' ') | title }}</span>
+            <span style="color: var(--text-muted);">{{ count }} users</span>
+          </div>
+          <div class="progress-bar" style="height: 6px;">
+            <div class="progress-fill" style="width:{{ [count / (stats.total_users or 1) * 100, 100] | min }}%; background: var(--accent);"></div>
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <p style="color:var(--text-muted); font-size:.9rem; text-align: center; padding: 2rem;">Domain mapping pending...</p>
+    {% endif %}
+  </div>
+</div>
+
+<div class="card" style="padding: 2.5rem;">
+  <h3 style="margin-bottom:2rem; font-size:1.1rem; font-weight: 800; display: flex; align-items: center; gap: 0.5rem;">
+    <span style="color: var(--secondary);">💻</span> Technical Proficiency Spectrum
+  </h3>
+  <div class="grid-3">
+    {% for level in ['beginner', 'intermediate', 'advanced'] %}
+    {% set count = stats.skill_distribution.get(level, 0) %}
+    <div class="level-card">
+      <div style="font-size:2.5rem; font-weight:900; margin-bottom: 0.5rem;" class="level-{{ level }}">
+        {{ count }}
+      </div>
+      <div style="font-size:.75rem; font-weight: 800; color:var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;">{{ level }} Level</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="card" style="background: var(--text-main); color: white; border: none; padding: 3rem;">
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem;">
+    <div>
+      <h3 style="color: white; margin-bottom: 0.5rem; font-size: 1.25rem;">Intelligence Export</h3>
+      <p style="color: rgba(255,255,255,0.6); font-size: 0.95rem;">Download architectural data and user metrics for external auditing.</p>
+    </div>
+    <div style="display:flex; gap:12px; flex-wrap:wrap;">
+      <a href="/admin/export/users" class="btn btn-primary" style="padding: 0.875rem 1.5rem;">Export User Base (.CSV)</a>
+      <a href="/admin/export/recommendations" class="btn btn-secondary" style="padding: 0.875rem 1.5rem; background: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.2);">Export Decisions (.CSV)</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

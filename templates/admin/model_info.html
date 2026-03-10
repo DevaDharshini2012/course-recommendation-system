@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}Admin - Model Information{% endblock %}
+{% block content %}
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+  <h2>🤖 ML Model Information</h2>
+  <a href="/admin" class="btn btn-secondary" style="font-size:.85rem; padding:8px 16px;">← Dashboard</a>
+</div>
+
+{% if info.error %}
+<div class="alert alert-error">
+  {{ info.error }}<br>
+  <strong>Run <code>python train_model.py</code> to train the model first.</strong>
+</div>
+{% else %}
+
+<div class="grid-2">
+  <div class="card">
+    <h3 style="margin-bottom:16px; font-size:1rem;">📊 Model Performance</h3>
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      <div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+          <span style="font-size:.88rem; font-weight:600;">Random Forest Accuracy</span>
+          <span style="font-weight:800; color:var(--success);">{{ "%.2f"|format(info.rf_accuracy * 100) }}%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width:{{ info.rf_accuracy * 100 }}%; background:var(--success);"></div>
+        </div>
+      </div>
+      <div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+          <span style="font-size:.88rem; font-weight:600;">Decision Tree Accuracy</span>
+          <span style="font-weight:800; color:var(--primary);">{{ "%.2f"|format(info.dt_accuracy * 100) }}%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width:{{ info.dt_accuracy * 100 }}%;"></div>
+        </div>
+      </div>
+      <div style="background:#f8fafc; border-radius:8px; padding:12px; font-size:.85rem;">
+        <strong>Cross-Validation (5-fold):</strong> 
+        {{ "%.2f"|format(info.cv_mean * 100) }}% ± {{ "%.2f"|format(info.cv_std * 100) }}%
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-bottom:16px; font-size:1rem;">⚙️ Model Configuration</h3>
+    <div style="font-size:.88rem; display:flex; flex-direction:column; gap:10px;">
+      <div class="xai-feature" style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--border);">
+        <span>Primary Model</span><strong>Random Forest (200 trees)</strong>
+      </div>
+      <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--border);">
+        <span>Explainability Model</span><strong>Decision Tree (depth 10)</strong>
+      </div>
+      <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--border);">
+        <span>Training Samples</span><strong>3,000 synthetic records</strong>
+      </div>
+      <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid var(--border);">
+        <span>Feature Count</span><strong>{{ info.feature_cols | length }} features</strong>
+      </div>
+      <div style="display:flex; justify-content:space-between; padding:8px 0;">
+        <span>Course Classes</span><strong>25 courses</strong>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Feature Importances -->
+<div class="card">
+  <h3 style="margin-bottom:16px; font-size:1rem;">🏆 Top Feature Importances</h3>
+  {% set max_imp = info.feature_importances.values() | list | max %}
+  {% for feat, imp in info.feature_importances.items() %}
+  {% if loop.index <= 15 %}
+  <div style="display:flex; align-items:center; gap:12px; padding:7px 0; border-bottom:1px solid var(--border);">
+    <div style="width:200px; font-size:.82rem; font-weight:600;">{{ feat | replace('_',' ') | title }}</div>
+    <div style="flex:1;">
+      <div class="progress-bar">
+        <div class="progress-fill" style="width:{{ imp / max_imp * 100 }}%;"></div>
+      </div>
+    </div>
+    <div style="width:60px; text-align:right; font-size:.82rem; color:var(--muted);">
+      {{ "%.2f"|format(imp * 100) }}%
+    </div>
+  </div>
+  {% endif %}
+  {% endfor %}
+</div>
+
+<!-- Feature List -->
+<div class="card">
+  <h3 style="margin-bottom:12px; font-size:1rem;">📝 All Feature Columns ({{ info.feature_cols | length }})</h3>
+  <div style="display:flex; flex-wrap:wrap; gap:6px;">
+    {% for feat in info.feature_cols %}
+    <span class="badge badge-blue" style="font-size:.78rem;">{{ feat }}</span>
+    {% endfor %}
+  </div>
+</div>
+
+{% endif %}
+{% endblock %}

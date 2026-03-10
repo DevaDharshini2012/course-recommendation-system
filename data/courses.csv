@@ -1,0 +1,26 @@
+course_id,course_name,category,level,skills_required,career_path,description
+C001,Python for Data Science,Data Science,beginner,logical_thinking|programming_basics,Data Analyst|Data Scientist,Learn Python programming fundamentals with data science applications
+C002,Machine Learning A-Z,Data Science,intermediate,analytical_ability|programming_basics|statistics,Data Scientist|ML Engineer,Comprehensive machine learning course covering supervised and unsupervised learning
+C003,Deep Learning Specialization,AI/ML,advanced,analytical_ability|programming_advanced|mathematics,AI Researcher|ML Engineer,Master deep learning techniques including CNNs RNNs and transformers
+C004,Web Development Bootcamp,Web Development,beginner,programming_basics|creativity,Web Developer|Frontend Developer,Full stack web development with HTML CSS JavaScript and Node.js
+C005,React & Redux,Web Development,intermediate,programming_intermediate|logical_thinking,Frontend Developer|UI Developer,Build modern web applications using React and state management with Redux
+C006,Node.js Backend Development,Web Development,intermediate,programming_intermediate|logical_thinking,Backend Developer|Full Stack Developer,Server-side development with Node.js Express and MongoDB
+C007,AWS Cloud Practitioner,Cloud Computing,beginner,logical_thinking|networking_basics,Cloud Engineer|DevOps Engineer,Introduction to Amazon Web Services and cloud computing concepts
+C008,DevOps with Docker & Kubernetes,DevOps,advanced,programming_intermediate|system_design|networking,DevOps Engineer|Site Reliability Engineer,Containerization and orchestration using Docker and Kubernetes
+C009,Cybersecurity Fundamentals,Cybersecurity,beginner,logical_thinking|networking_basics|analytical_ability,Security Analyst|Ethical Hacker,Introduction to cybersecurity principles network security and ethical hacking
+C010,Ethical Hacking & Penetration Testing,Cybersecurity,advanced,programming_advanced|networking|analytical_ability,Penetration Tester|Security Consultant,Advanced penetration testing techniques and vulnerability assessment
+C011,Database Design & SQL,Database,beginner,logical_thinking|analytical_ability,Database Administrator|Data Analyst,Relational database design SQL queries and database management
+C012,MongoDB & NoSQL Databases,Database,intermediate,programming_intermediate|logical_thinking,Database Engineer|Backend Developer,NoSQL database concepts with MongoDB and data modeling
+C013,Android App Development,Mobile Development,intermediate,programming_intermediate|logical_thinking|creativity,Android Developer|Mobile Developer,Build Android applications using Java and Kotlin
+C014,iOS Development with Swift,Mobile Development,intermediate,programming_intermediate|logical_thinking|creativity,iOS Developer|Mobile Developer,Create iOS applications using Swift and Xcode
+C015,Flutter Cross-Platform Development,Mobile Development,intermediate,programming_intermediate|creativity|logical_thinking,Mobile Developer|Full Stack Developer,Build cross-platform mobile apps using Flutter and Dart
+C016,Data Structures & Algorithms,Computer Science,intermediate,logical_thinking|analytical_ability|programming_intermediate,Software Engineer|Backend Developer,Master DSA for competitive programming and technical interviews
+C017,System Design & Architecture,Software Engineering,advanced,programming_advanced|analytical_ability|system_design,Software Architect|Senior Engineer,Design scalable distributed systems and microservices architecture
+C018,Computer Vision with OpenCV,AI/ML,advanced,programming_advanced|mathematics|analytical_ability,Computer Vision Engineer|AI Researcher,Image processing and computer vision techniques using OpenCV and deep learning
+C019,Natural Language Processing,AI/ML,advanced,programming_advanced|analytical_ability|linguistics,NLP Engineer|AI Researcher,Text processing sentiment analysis and language models
+C020,Business Intelligence & Tableau,Data Analytics,beginner,analytical_ability|statistics|business_acumen,BI Analyst|Data Analyst,Data visualization and business intelligence using Tableau
+C021,R Programming for Statistics,Data Science,intermediate,analytical_ability|statistics|mathematics,Statistician|Data Analyst,Statistical computing and data analysis using R programming
+C022,Blockchain & Web3 Development,Blockchain,advanced,programming_advanced|cryptography|analytical_ability,Blockchain Developer|Smart Contract Developer,Decentralized application development with Solidity and Web3
+C023,Game Development with Unity,Game Development,intermediate,programming_intermediate|creativity|mathematics,Game Developer|XR Developer,2D and 3D game development using Unity engine and C#
+C024,UI/UX Design Fundamentals,Design,beginner,creativity|analytical_ability|communication,UI/UX Designer|Product Designer,User interface and experience design principles with Figma
+C025,Project Management & Agile,Management,beginner,communication|analytical_ability|leadership,Project Manager|Scrum Master,Agile methodologies Scrum Kanban and project management fundamentals
